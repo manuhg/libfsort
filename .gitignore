@@ -2,7 +2,9 @@
 .~lock*
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 .ipynb_checkpoints
+data/*
 .vscode
+*.caffemodel
 CMakeFiles
 CMakeScripts
 CMakeCache.txt
