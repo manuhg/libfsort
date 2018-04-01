@@ -3,6 +3,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 .ipynb_checkpoints
 data/*
+*/ilsvrc12/*
 .vscode
 *.caffemodel
 CMakeFiles
