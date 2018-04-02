@@ -44,6 +44,6 @@ public:
     void finish();
     ~tsne_wrapper();
 };
-vector<vector<double>> extract_embeddings(vector<string> image_files,int max_iters=1000) //add option to change batch size and and crop sizes
+vector<vector<double>> extract_embeddings(vector<string> image_files,int max_iters=1000); //add option to change batch size and and crop sizes
 
 #endif
