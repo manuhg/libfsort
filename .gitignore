@@ -1,3 +1,5 @@
+src/file_list.txt
+src/temp.txt
 .ipynb_checkpoints
 .~lock*
 # See https://help.github.com/ignore-files/ for more about ignoring files.
