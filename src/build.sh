@@ -1,4 +1,5 @@
 #!/bin/sh
+#for cmake https://github.com/BVLC/caffe/pull/1667
 [ -f libfsort.a ] && echo "rm libfsort.a" && rm libfsort.a
 [ -f libfsort ] && echo "rm libfsort" && rm libfsort
 echo "cmake ."
