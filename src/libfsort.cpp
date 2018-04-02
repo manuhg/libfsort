@@ -22,15 +22,17 @@ using caffe::Net;
 using std::string;
 namespace db = caffe::db;
 
-int extract_features(int num_img_files);
+std::vector<std::vector<float>> extract_features(int num_img_files);
 
 int main(int argc, char** argv) {
-  return extract_features(atoi(argv[1]));
+   extract_features(atoi(argv[1]));
 }
 
-int extract_features(int num_img_files) {
- int num_mini_batches = num_img_files;
+std::vector<std::vector<float>> extract_features(int num_img_files) {
+  int num_mini_batches = num_img_files;
+  //std::clock_t start; double duration;
   std::vector<std::vector<float>> features_vec;
+  
   Caffe::set_mode(Caffe::CPU);
   const char * binaryproto="ml_data/bvlc_googlenet.caffemodel";
   std::string pretrained_binary_proto(binaryproto);
@@ -40,18 +42,22 @@ int extract_features(int num_img_files) {
   feature_extraction_net->CopyTrainedLayersFrom(pretrained_binary_proto);
   std::string feature_blob_name("fc7");
   
-  std::cout<<"Checking parameters";
+  //std::cout<<"Checking parameters";
+  LOG(INFO)<< "Checking parameters";  
   CHECK(feature_extraction_net->has_blob(feature_blob_name))<< "Unknown feature name " 
   << feature_blob_name<< " in the network " << feature_extraction_proto;
-  std::cout<<"\nExtracting Features";
-  LOG(INFO)<<  "Extracting Features";  
-
+  //std::cout<<"\nExtracting Features";
+  LOG(ERROR)<<  "Extracting Features";
+ // start=std::clock();
+  int maxdims=0;//just for printing info at the end
   for (int batch_index = 0; batch_index < num_mini_batches; ++batch_index) {
     feature_extraction_net->Forward();
       const boost::shared_ptr<Blob<float> > feature_blob = feature_extraction_net->blob_by_name(feature_blob_name);
       
       int batch_size = feature_blob->num();
       int dim_features = feature_blob->count() / batch_size;
+      if(dim_features>maxdims)
+        maxdims=dim_features;
       const float* feature_blob_data;
       std::vector<float> batch_fvec;
       for (int n = 0; n < batch_size; ++n)
@@ -64,7 +70,15 @@ int extract_features(int num_img_files) {
       }
       features_vec.push_back(batch_fvec);
   }
-  std::cout<<"\nSuccessfully extracted the features from "<<features_vec.size()<<" files\nfeature vector size: "<<4096*features_vec.size()*sizeof(float)<<" bytes\n";
-  LOG(INFO)<<  "Successfully extracted the features from "<<features_vec.size()<<" files\nfeature vector size: "<<4096*features_vec.size()*sizeof(float)<<" bytes\n";
-  return 0;
+  //duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+  int size=maxdims*features_vec.size()*sizeof(float);
+  // std::cout<<"\nSuccessfully extracted the features from "<<features_vec.size()
+  //  <<" files\nfeature vector size: "<<size<<" bytes "<<size/1024<<"KB "<<size/1048576
+  //  <<" MB\n"<<maxdims*sizeof(float)/1024<<"KB per file"
+  //  <<"\ntime duration:"<<duration<<", "<<duration/features_vec.size()<<" per file\n";
+  
+  LOG(ERROR)<<"\nSuccessfully extracted the features from "<<features_vec.size()
+   <<" files\nfeature vector size: "<<size<<" bytes "<<size/1024<<"KB "<<size/1048576
+   <<"MB, "<<maxdims*sizeof(float)/1024<<"KB per file\n";
+  return features_vec;
 }
