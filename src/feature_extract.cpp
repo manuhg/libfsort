@@ -18,11 +18,17 @@ using caffe::Net;
 using std::string;
 namespace db = caffe::db;
 
-
-vector<vector<float>> extract_features(int num_img_files) {
+#ifdef _vec_ret
+vector<vector<float>> extract_features(int num_img_files) 
+#else
+void extract_features(vector<vector<float>> &features_vec,int num_img_files) 
+#endif
+{
   int num_mini_batches = num_img_files;
+  #ifdef _vec_ret
   vector<vector<float>> features_vec;
-  
+  #endif
+  features_vec.clear();
   Caffe::set_mode(Caffe::CPU);
   const char * binaryproto="ml_data/bvlc_googlenet.caffemodel";
   std::string pretrained_binary_proto(binaryproto);
@@ -35,7 +41,9 @@ vector<vector<float>> extract_features(int num_img_files) {
   if(!feature_extraction_net->has_blob(feature_blob_name))
   {
     cout<< "Unknown feature name "<< feature_blob_name;
+    #ifdef _vec_ret
     return features_vec;
+    #endif
   }
 
   for (int batch_index = 0; batch_index < num_mini_batches; ++batch_index) {
@@ -55,5 +63,7 @@ vector<vector<float>> extract_features(int num_img_files) {
       }
       features_vec.push_back(batch_fvec);
   }
+  #ifdef _vec_ret
   return features_vec;
+  #endif
 }
