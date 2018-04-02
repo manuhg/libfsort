@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include <vector>
 #ifndef CPU_ONLY
@@ -16,22 +17,24 @@
 #include "caffe/util/format.hpp"
 #include "caffe/util/io.hpp"
 
+
 using caffe::Blob;
 using caffe::Caffe;
 using caffe::Net;
 using std::string;
 namespace db = caffe::db;
+using namespace std;
 
-std::vector<std::vector<float>> extract_features(int num_img_files);
+vector<vector<float>> extract_features(int num_img_files);
 
 int main(int argc, char** argv) {
    extract_features(atoi(argv[1]));
 }
 
-std::vector<std::vector<float>> extract_features(int num_img_files) {
+vector<vector<float>> extract_features(int num_img_files) {
   int num_mini_batches = num_img_files;
   //std::clock_t start; double duration;
-  std::vector<std::vector<float>> features_vec;
+  vector<vector<float>> features_vec;
   
   Caffe::set_mode(Caffe::CPU);
   const char * binaryproto="ml_data/bvlc_googlenet.caffemodel";
@@ -59,11 +62,11 @@ std::vector<std::vector<float>> extract_features(int num_img_files) {
       if(dim_features>maxdims)
         maxdims=dim_features;
       const float* feature_blob_data;
-      std::vector<float> batch_fvec;
+      vector<float> batch_fvec;
       for (int n = 0; n < batch_size; ++n)
       {
         feature_blob_data = feature_blob->cpu_data()+feature_blob->offset(n);
-        std::vector<float> dim_fvec {feature_blob_data,feature_blob_data+dim_features};
+        vector<float> dim_fvec {feature_blob_data,feature_blob_data+dim_features};
         batch_fvec.insert(batch_fvec.end(),dim_fvec.begin(),dim_fvec.end());
 
         LOG(INFO)<<" "<<batch_index<<"/"<<num_mini_batches<<" "<<n<<"/"<<batch_size<<" "<<dim_features<<" : "<<batch_fvec.size();
