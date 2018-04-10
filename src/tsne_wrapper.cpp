@@ -1,18 +1,18 @@
 #include "libfsort.h"
 
-tsne_wrapper::tsne_wrapper(int op_dims,int max_iters, double perplexity, double theta, bool normalize  ) 
+tsne_wrapper::tsne_wrapper(int op_dims,int max_iters, double perplexity, double theta, bool normalize  )
 {
   this->op_dims = op_dims;
   this->perplexity = perplexity;
   this->theta = theta;
   this->normalize = normalize;
 }
-vector<vector<double>> tsne_wrapper::run(vector<vector<float>> &data) 
+vector<vector<double>> tsne_wrapper::run(vector<vector<float>> data)
 {
   return run_(data, this->op_dims, this->perplexity, this->theta, this->normalize);
 }
 
-vector<vector<double>> tsne_wrapper::run_(vector<vector<float>> &data,int op_dims,int max_iters, double perplexity,double theta, bool normalize) 
+vector<vector<double>> tsne_wrapper::run_(vector<vector<float>> data,int op_dims,int max_iters, double perplexity,double theta, bool normalize)
 {
   iters = 0;
   this->data = data;

@@ -10,9 +10,5 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     for(vector<string>::iterator i=image_files.begin();i!=image_files.end();i++)
         file_list<<*i<<" 0\n";
     file_list.close();
-    #ifndef _vec_ret
-    extract_features(&fvec,image_files.size());
-    #else
-    extract_features(image_files.size());
-    #endif
+    return tsne_obj.run(extract_features(image_files.size()));
 }
