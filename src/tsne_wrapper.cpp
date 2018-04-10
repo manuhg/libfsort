@@ -71,7 +71,29 @@ vector<vector<double>> tsne_wrapper::run_(vector<vector<float>> data,int op_dims
 
   return tsne_embeddings;
 }
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <iostream>
 
+using namespace cv;
+using namespace std;
+vector<vector<double>> tsne_wrapper::run(vector<string> image_files,int op_dims,int max_iters, double perplexity,double theta, bool normalize)
+{
+    Mat image; vector<vector<double>> points;
+    for(vector<string>::iterator i=image_files.begin();i!=image_files.end();i++)
+    {
+        image=imread(i->c_str(),CV_LOAD_IMAGE_COLOR);
+        if(! image.data )                              // Check for invalid input
+        {
+            cout <<  "Could not open or find the image" <<endl ;
+            return points;
+        }
+
+        namedWindow( "Display window", WINDOW_AUTOSIZE );// Create a window for display.
+        imshow( "Display window", image );
+    }
+    return points;
+}
 void tsne_wrapper::finish() {
   delete (inp_data);
   delete (op_data);
