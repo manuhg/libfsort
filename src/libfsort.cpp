@@ -12,3 +12,22 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     file_list.close();
     return tsne_obj.run(extract_features(image_files.size()));
 }
+//#define _main
+#ifdef _main
+#include<iostream>
+#include<string.h>
+#include<cstring>
+using namespace std;
+int main(int argc, char ** argv)
+{
+    vector<string> files;
+    for(int i=1;i<argc;i++)
+    {
+        string a(argv[i],strlen(argv[i]));
+        files.push_back(a);
+    }
+    extract_embeddings(files,1);
+    return 0;
+}
+
+#endif
