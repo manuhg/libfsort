@@ -12,7 +12,7 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     file_list.close();
     return tsne_obj.run(extract_features(image_files.size()));
 }
-//#define _main
+#define _main
 #ifdef _main
 #include<iostream>
 #include<string.h>
