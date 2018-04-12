@@ -1,0 +1,1 @@
+const char * dummy = "/home/gk1000/dev/libfsort/lib/sforfsort_dummy.c";

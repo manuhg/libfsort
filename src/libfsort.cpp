@@ -4,6 +4,11 @@ vector<vector<float>> fvec;
 #endif
 vector<vector<double>> extract_embeddings(vector<string> image_files,int accuracy_level) //add option to change batch size and and crop sizes
 {
+    if(image_files.size()<1)
+    {
+        vector<vector<double>> empty;
+        return empty;
+    }
     ofstream file_list;
     tsne_wrapper tsne_obj(2,1000);
     file_list.open("file_list.txt");
@@ -12,7 +17,7 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     file_list.close();
     return tsne_obj.run(extract_features(image_files.size()));
 }
-#define _main
+//#define _main
 #ifdef _main
 #include<iostream>
 #include<string.h>

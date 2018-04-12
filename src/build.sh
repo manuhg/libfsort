@@ -1,9 +1,10 @@
 #!/bin/sh
-#for cmake https://github.com/BVLC/caffe/pull/1667
-cd ../bhtsne
-./build.sh
-cd ../src
 set -x #echo each command before executing
+#for cmake https://github.com/BVLC/caffe/pull/1667
+#cd ../bhtsne
+#./build.sh
+#cd ../src
+
 rm -rf build
 mkdir build
 
