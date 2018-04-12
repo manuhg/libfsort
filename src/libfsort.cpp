@@ -17,7 +17,7 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     file_list.close();
     return tsne_obj.run(extract_features(image_files.size()));
 }
-//#define _main
+#define _main
 #ifdef _main
 #include<iostream>
 #include<string.h>
@@ -30,7 +30,9 @@ int main(int argc, char ** argv)
     {
         string a(argv[i],strlen(argv[i]));
         files.push_back(a);
+        cout<<"\n"<<a;
     }
+    cout<<"\n";
     extract_embeddings(files,1);
     return 0;
 }
