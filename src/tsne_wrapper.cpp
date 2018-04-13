@@ -82,7 +82,7 @@ vector<vector<double>> tsne_wrapper::run(vector<string> image_files,int op_dims,
     Mat image; vector<vector<double>> points;
     for(vector<string>::iterator i=image_files.begin();i!=image_files.end();i++)
     {
-        image=imread(i->c_str(),CV_LOAD_IMAGE_COLOR);
+        image=imread(i->c_str(),IMREAD_COLOR);
         if(! image.data )                              // Check for invalid input
         {
             cout <<  "Could not open or find the image" <<endl ;

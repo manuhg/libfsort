@@ -1,3 +1,6 @@
+#include <sys/stat.h>
+#include <unistd.h>
+#include <string>
 #include "libfsort.h"
 #include "boost/algorithm/string.hpp"
 #include "google/protobuf/text_format.h"
@@ -18,17 +21,46 @@ using caffe::Net;
 using std::string;
 namespace db = caffe::db;
 
-
+bool exists(const char *f)
+{
+    struct stat s;
+    return(stat(f,&s)==0);
+}
 vector<vector<float>> extract_features(int num_img_files)
 {
     int num_mini_batches = num_img_files;
     vector<vector<float>> features_vec;
 
-    Caffe::set_mode(Caffe::CPU);
     const char * binaryproto="ml_data/bvlc_googlenet.caffemodel";
+    string feature_extraction_proto("ml_data/imagenet_val.prototxt");
+
+    if(num_img_files<1)
+    {
+        cout<<"\nToo few files!";
+        return features_vec;
+    }
+    if(!exists("file_list.txt"))
+    {
+        cout<<"\nfile_list.txt not found!";
+        return features_vec;
+    }
+    if(!exists(binaryproto))
+    {
+        cout<<endl <<"\n File "<<binaryproto<<" not found!";
+        return features_vec;
+    }
+    cout <<endl<<"Found "<<binaryproto;
+    if(!exists(feature_extraction_proto.c_str()))
+    {
+        cout <<"\n File "<<feature_extraction_proto<<" not found!";
+        return features_vec;
+    }
+    cout<<endl<<"Found "<<feature_extraction_proto;
+
+    Caffe::set_mode(Caffe::CPU);
     std::string pretrained_binary_proto(binaryproto);
     ::google::InitGoogleLogging(binaryproto);
-    std::string feature_extraction_proto("ml_data/imagenet_val.prototxt");
+
     boost::shared_ptr<Net<float> > feature_extraction_net(new Net<float>(feature_extraction_proto, caffe::TEST));
     feature_extraction_net->CopyTrainedLayersFrom(pretrained_binary_proto);
     std::string feature_blob_name("fc7");
