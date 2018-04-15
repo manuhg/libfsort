@@ -1,20 +1,10 @@
 #include "libfsort.h"
 
-tsne_wrapper::tsne_wrapper(int op_dims,int max_iters, double perplexity, double theta, bool normalize  )
-{
-  this->op_dims = op_dims;
-  this->perplexity = perplexity;
-  this->theta = theta;
-  this->normalize = normalize;
-}
-vector<vector<double>> tsne_wrapper::run(vector<vector<float>> data)
-{
-  return run_(data, this->op_dims, this->perplexity, this->theta, this->normalize);
-}
 
-vector<vector<double>> tsne_wrapper::run_(vector<vector<float>> data,int op_dims,int max_iters, double perplexity,double theta, bool normalize)
+vector<vector<double>> tsne_wrapper::run(vector<vector<float>> data,int op_dims,int max_iters, int num_threads,double perplexity,double theta, bool normalize)
 {
   iters = 0;
+  perplexity=30;
   this->data = data;
   this->op_dims = op_dims;
   this->perplexity = perplexity;
@@ -22,7 +12,7 @@ vector<vector<double>> tsne_wrapper::run_(vector<vector<float>> data,int op_dims
   this->normalize = normalize;
 
   samples = data.size();
-  cout<<"\n Found "<<samples<<" files";
+  cout<<"\nFound "<<samples<<" files\n";
   if(samples-1<3*perplexity)
   {
       cout<<"\nWarning: too few samples for expected accuracy";
@@ -38,8 +28,8 @@ vector<vector<double>> tsne_wrapper::run_(vector<vector<float>> data,int op_dims
     for (j = 0; j < input_dims; j++)
       inp_data[k++] = data[i][j];
 
-  tsne.run(inp_data, samples, input_dims, op_data, op_dims, perplexity, theta,run_manually,max_iters);
-
+  tsne_run_double(inp_data, samples, input_dims, op_data, op_dims, perplexity, theta,num_threads,max_iters);
+  
   if (min_.size() != op_dims)
     min_.resize(op_dims);
   if (max_.size() != op_dims)
@@ -83,7 +73,7 @@ vector<vector<double>> tsne_wrapper::run_(vector<vector<float>> data,int op_dims
 
 using namespace cv;
 using namespace std;
-vector<vector<double>> tsne_wrapper::run(vector<string> image_files,int op_dims,int max_iters, double perplexity,double theta, bool normalize)
+vector<vector<double>> tsne_wrapper::run(vector<string> image_files,int op_dims,int max_iters, double perplexity,int num_threads,double theta, bool normalize)
 {
     Mat image; vector<vector<double>> points;
     for(vector<string>::iterator i=image_files.begin();i!=image_files.end();i++)

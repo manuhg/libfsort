@@ -13,7 +13,7 @@ include_directories(${Caffe_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/../include /usr/include /usr/local/include)
 include_directories(${Caffe_INCLUDE_DIRS})
 
-link_directories(../lib /usr/lib /usr/local/lib)
+link_directories(../lib /usr/lib /usr/local/lib /usr/lib/openmpi)
 
 message(STATUS "src dir: " ${CMAKE_SOURCE_DIR})
 message(STATUS "includes: " ${Caffe_INCLUDE_DIRS})
@@ -22,7 +22,7 @@ message(STATUS "libs:" ${Caffe_LIBRARIES})
 file(GLOB CPP_FILES ./*.cpp)
 file(GLOB INCLUDES ./*.h)
 
-set(LIBS bhtsne)
+set(LIBS bhtsne mpi)
 #set(LIBS bhtsne pthread m  boost_system boost_thread glog lmdb cblas hdf5_hl leveldb gflags protobuf hdf5 caffe boost_filesystem caffeproto )
 set(BUILD_LIB ON)
 set(BUILD_EXECUTABLE ON)

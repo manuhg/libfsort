@@ -9,7 +9,7 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
         return empty;
 
     ofstream file_list;
-    tsne_wrapper tsne_obj(2,1000);
+    tsne_wrapper tsne_obj;
     file_list.open("file_list.txt");
     for(vector<string>::iterator i=image_files.begin();i!=image_files.end();i++)
         file_list<<*i<<" 0\n";
@@ -17,7 +17,7 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     vector<vector<float>>features=extract_features(image_files.size());
     if(features.size()<1)
         return empty;
-    return tsne_obj.run(features);
+    return tsne_obj.run(features,2,1000);
 }
 #define _main
 #ifdef _main
@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
     {
         string a(argv[i],strlen(argv[i]));
         files.push_back(a);
-        cout<<"\n"<<a;
+        //cout<<"\n"<<a;
     }
     vector<vector<double>> v=extract_embeddings(files,1);
     cout<<"\n"<<v.size()<<" files "<<v[0].size()<<" dims";

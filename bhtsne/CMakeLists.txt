@@ -1,15 +1,21 @@
-cmake_minimum_required(VERSION 2.8)
-project(bhtsne)
+PROJECT(tsne_multicore CXX)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8 FATAL_ERROR)
+CMAKE_POLICY(VERSION 2.8)
 
-file(GLOB CPP_FILES ./*.cpp)
+SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" "${CMAKE_MODULE_PATH}")
 
-set(GXX_FLAGS "-Os -fdata-sections -ffunction-sections")
-#set(LD_FLAGS "-Wl,--gc-sections")
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GXX_FLAGS}" )
-#set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${LD_FLAGS}" )
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lm -lc++ -lstdc++")
 
-add_library(bhtsne STATIC ${CPP_FILES})
+FIND_PACKAGE(OpenMP 2)
 
+IF(OPENMP_FOUND)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+ELSE()
+    MESSAGE(WARNING "Not using OpenMP. Performance will suffer.")
+ENDIF()
 
+FILE(GLOB src *.cpp)
 
-
+ADD_LIBRARY(bhtsne MODULE ${src})
