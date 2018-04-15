@@ -22,6 +22,12 @@ vector<vector<double>> tsne_wrapper::run_(vector<vector<float>> data,int op_dims
   this->normalize = normalize;
 
   samples = data.size();
+  cout<<"\n Found "<<samples<<" files";
+  if(samples-1<3*perplexity)
+  {
+      cout<<"\nWarning: too few samples for expected accuracy";
+      perplexity=(samples-1)/3;
+  }
   input_dims = data[0].size();
 
   inp_data = (double *)malloc(input_dims * samples * sizeof(double));
