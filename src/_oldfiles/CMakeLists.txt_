@@ -1,0 +1,43 @@
+cmake_minimum_required(VERSION 2.8)
+project(libfsort)
+#include(MergeStaticLibs.cmake)
+find_package(Caffe REQUIRED)
+find_package(OpenCV REQUIRED)
+
+include_directories(${CMAKE_SOURCE_DIR}/../include)
+link_directories(${CMAKE_SOURCE_DIR}/../lib /usr/lib /usr/local/lib)
+add_definitions(${Caffe_DEFINITIONS})
+
+file(GLOB CPP_FILES ./*.cpp)
+file(GLOB INCLUDES ./*.h)
+#file(GLOB OPENCV3_LIBS_ ./opencv3/*.a )
+set(LIBS bhtsne pthread m caffe boost_system boost_thread glog lmdb cblas hdf5_hl leveldb gflags protobuf hdf5 caffe boost_filesystem caffeproto )
+
+set(BUILD_LIB ON)
+set(BUILD_EXECUTABLE ON)
+set(OPTIMIZATION_FLAGS ON)
+set(ALL_STATIC OFF)
+
+if(ALL_STATIC)
+ SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+ SET(BUILD_SHARED_LIBRARIES OFF)
+ SET(CMAKE_EXE_LINKER_FLAGS "-static")
+ link_libraries("-static")
+endif()
+
+if(OPTIMIZATION_FLAGS)
+ set(GXX_FLAGS "-Os -fPIC -fdata-sections -ffunction-sections")
+ set(LD_FLAGS "-Wl,--gc-sections ")
+ set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GXX_FLAGS} " )
+ set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${LD_FLAGS}" )
+endif()
+
+if(BUILD_LIB)
+ add_library(fsort STATIC ${CPP_FILES})
+ target_link_libraries(fsort ${Caffe_LIBRARIES} ${LIBS} ${OpenCV_LIBS})
+endif()
+
+if(BUILD_EXECUTABLE)
+ add_executable(fsort_ex ${CPP_FILES} ${INCLUDES})
+ target_link_libraries(fsort_ex ${Caffe_LIBRARIES} ${LIBS} ${OpenCV_LIBS} )
+endif()

@@ -34,8 +34,9 @@ int main(int argc, char ** argv)
         files.push_back(a);
         cout<<"\n"<<a;
     }
-    cout<<"\n";
-    extract_embeddings(files,1);
+    vector<vector<double>> v=extract_embeddings(files,1);
+    cout<<"\n"<<v.size()<<" files "<<v[0].size()<<" dims";
+    cout<<endl;
     return 0;
 }
 
