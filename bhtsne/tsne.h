@@ -7,6 +7,9 @@
  *
  *  Multicore version by Dmitry Ulyanov, 2016. dmitry.ulyanov.msu@gmail.com
  */
+#ifndef TSNE_H
+#define TSNE_H
+
 #include <cmath>
 #include <cfloat>
 #include <cstdlib>
@@ -20,12 +23,11 @@
 #endif
 
 #ifndef TSNE_SRC
-#include <bhtsne/splittree.h>
-#include <bhtsne/vptree.h>
+#include "splittree.h"
+#include "vptree.h"
 #endif
 
-#ifndef TSNE_H
-#define TSNE_H
+
 
 
 static inline double sign(double x) { return (x == .0 ? .0 : (x < .0 ? -1.0 : 1.0)); }
@@ -48,6 +50,8 @@ private:
     void computeGaussianPerplexity(double* X, int N, int D, int** _row_P, int** _col_P, double** _val_P, double perplexity, int K, int verbose);
     double randn();
 };
+#define _AALAAA_ 89
+
 void tsne_run_double(double* X, int N, int D, double* Y, int no_dims = 2, double perplexity = 30, double theta = .5, int num_threads = 1, int max_iter = 1000, int random_state = -1,
                                 bool init_from_Y = false, int verbose = 0, double early_exaggeration = 12, double learning_rate = 200, double *final_error = NULL, int distance = 1);
 
