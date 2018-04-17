@@ -36,26 +36,26 @@ vector<vector<float>> extract_features(int num_img_files)
 
     if(num_img_files<1)
     {
-        cout<<"\nToo few files!";
+        cout<<"Too few files!\n";
         return features_vec;
     }
     if(!exists("file_list.txt"))
     {
-        cout<<"\nfile_list.txt not found!";
+        cout<<"file_list.txt not found!\n";
         return features_vec;
     }
     if(!exists(binaryproto))
     {
-        cout<<endl <<"\n File "<<binaryproto<<" not found!";
+        cout<<"File "<<binaryproto<<" not found!\n";
         return features_vec;
     }
-    cout <<endl<<"Found "<<binaryproto;
+    cout <<"Found "<<binaryproto<<endl;
     if(!exists(feature_extraction_proto.c_str()))
     {
-        cout <<"\n File "<<feature_extraction_proto<<" not found!";
+        cout <<"File "<<feature_extraction_proto<<" not found!\n";
         return features_vec;
     }
-    cout<<endl<<"Found "<<feature_extraction_proto;
+    cout<<"Found "<<feature_extraction_proto;
 
     Caffe::set_mode(Caffe::CPU);
     std::string pretrained_binary_proto(binaryproto);

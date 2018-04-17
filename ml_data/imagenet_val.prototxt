@@ -189,7 +189,7 @@ layer {
   bottom: "fc6"
   top: "fc7"
   inner_product_param {
-    num_output: 4096
+    num_output: 512
   }
 }
 layer {

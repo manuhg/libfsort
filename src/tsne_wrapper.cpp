@@ -1,7 +1,7 @@
 #include "libfsort.h"
 
 
-vector<vector<double>> tsne_wrapper::run(vector<vector<float>> data,int op_dims,int max_iters, int num_threads,double perplexity,double theta, bool normalize)
+vector<vector<double>> tsne_wrapper::run(vector<vector<float>> data,int op_dims,int max_iters, double perplexity,double theta, bool normalize,int random_seed,bool skip_rand_init)
 {
   iters = 0;
   perplexity=30;
@@ -12,13 +12,14 @@ vector<vector<double>> tsne_wrapper::run(vector<vector<float>> data,int op_dims,
   this->normalize = normalize;
 
   samples = data.size();
-  cout<<"\nFound "<<samples<<" files\n";
+  input_dims = data[0].size();
+
+  cout<<"\nFound "<<samples<<" files, input dims:"<<input_dims;
   if(samples-1<3*perplexity)
   {
       cout<<"\nWarning: too few samples for expected accuracy";
       perplexity=(samples-1)/3;
   }
-  input_dims = data[0].size();
 
   inp_data = (double *)malloc(input_dims * samples * sizeof(double));
   op_data  = (double *)malloc(op_dims * samples * sizeof(double));
@@ -28,7 +29,7 @@ vector<vector<double>> tsne_wrapper::run(vector<vector<float>> data,int op_dims,
     for (j = 0; j < input_dims; j++)
       inp_data[k++] = data[i][j];
 
-  tsne_run_double(inp_data, samples, input_dims, op_data, op_dims, perplexity, theta,num_threads,max_iters);
+  tsne->run(inp_data, samples, input_dims, op_data, op_dims, perplexity, theta,random_seed,skip_rand_init,max_iters);
   
   if (min_.size() != op_dims)
     min_.resize(op_dims);
@@ -73,21 +74,22 @@ vector<vector<double>> tsne_wrapper::run(vector<vector<float>> data,int op_dims,
 
 using namespace cv;
 using namespace std;
-vector<vector<double>> tsne_wrapper::run(vector<string> image_files,int op_dims,int max_iters, double perplexity,int num_threads,double theta, bool normalize)
+vector<vector<double>> tsne_wrapper::run(vector<string> image_files,int op_dims,int max_iters, double perplexity,double theta, bool normalize,int random_seed,bool skip_rand_init)
 {
-    Mat image; vector<vector<double>> points;
-    for(vector<string>::iterator i=image_files.begin();i!=image_files.end();i++)
-    {
-        image=imread(i->c_str(),IMREAD_COLOR);
-        if(! image.data )                              // Check for invalid input
-        {
-            cout <<  "Could not open or find the image" <<endl ;
-            return points;
-        }
+    vector<vector<double>> points;
+    // Mat image; 
+    // for(vector<string>::iterator i=image_files.begin();i!=image_files.end();i++)
+    // {
+    //     image=imread(i->c_str(),IMREAD_COLOR);
+    //     if(! image.data )                              // Check for invalid input
+    //     {
+    //         cout <<  "Could not open or find the image" <<endl ;
+    //         return points;
+    //     }
 
-        namedWindow( "Display window", WINDOW_AUTOSIZE );// Create a window for display.
-        imshow( "Display window", image );
-    }
+    //     namedWindow( "Display window", WINDOW_AUTOSIZE );// Create a window for display.
+    //     imshow( "Display window", image );
+    // }
     return points;
 }
 void tsne_wrapper::finish() {
