@@ -5,7 +5,7 @@ template<class Dtype> void display_vector_(vector<vector<Dtype>> f)
         cout<<"Empty!";
     else
         cout<<"feature vector:"<<f.size()<<"x"<<f[0].size();
-    
+
     for( class vector<vector<Dtype>>::iterator i=f.begin();i!=f.end();i++)
     {
         cout<<endl;
@@ -35,7 +35,7 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     empty=tsne_obj.run(features,2,1000,4);
     //display_vector_<double>(empty);
 }
-#define _main
+//#define _main
 #ifdef _main
 #include<iostream>
 #include<string.h>
