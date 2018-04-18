@@ -1,7 +1,10 @@
+#ifndef CPU_ONLY
+ #define CPU_ONLY
+#endif
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string>
-#include "libfsort.h"
+//#include "libfsort.h"
 #include "boost/algorithm/string.hpp"
 #include "google/protobuf/text_format.h"
 #include "caffe/caffe.hpp"
@@ -14,18 +17,21 @@
 #include "caffe/util/db.hpp"
 #include "caffe/util/format.hpp"
 #include "caffe/util/io.hpp"
+#include <iostream>
 
 using caffe::Blob;
 using caffe::Caffe;
 using caffe::Net;
 using std::string;
 namespace db = caffe::db;
+using namespace std;
 
 bool exists(const char *f)
 {
     struct stat s;
     return(stat(f,&s)==0);
 }
+
 vector<vector<float>> extract_features(int num_img_files)
 {
     int num_mini_batches = num_img_files;
@@ -89,4 +95,22 @@ vector<vector<float>> extract_features(int num_img_files)
         features_vec.push_back(batch_fvec);
     }
     return features_vec;
+}
+int main(int argc,char **argv)
+{
+    cout<<"hello!"<<endl;
+    vector<vector<float>>f=extract_features(atoi(argv[1]));
+    if(f.size()<1)
+        cout<<"\nEmpty!";
+    else
+        cout<<"\n "<<f.size()<<" files"<<"\n"<<f[0].size()<<" features";
+    int hh=0;
+    for( vector<vector<float>>::iterator i=f.begin();i!=f.end();i++)
+    {
+        cout<<endl;
+        for(vector<float>::iterator j=i->begin();j!=i->end();j++)
+        	// if(*j)
+        		cout<<*j;
+    }
+    cout<<endl;
 }

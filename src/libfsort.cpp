@@ -29,11 +29,12 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     {
         cout<<++hh<<" ";
     }
+    return empty;
     // if(features.size()<1)
     //     return empty;
     // return tsne_obj.run(features,2,1000,4);
 }
-#define _main
+//#define _main
 #ifdef _main
 #include<iostream>
 #include<string.h>
