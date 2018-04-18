@@ -2,13 +2,14 @@ cmake_minimum_required(VERSION 2.8)
 project(libfsort)
 
 
-set(Caffe_DIR ../caffe/cmake_build)
+set(Caffe_DIR ../caffe/share/Caffe)
 #set(Caffe_DIR ${CMAKE_SOURCE_DIR}/../caffe/cmake_build)
 find_package(Caffe REQUIRED)
 find_package(OpenCV REQUIRED)
 
 include_directories(${Caffe_DIR}/include)
-#add_definitions(${Caffe_DEFINITIONS})
+add_definitions(${Caffe_DEFINITIONS})
+
 #include_directories(/home/gk1000/dev/libfsort/include /usr/include /usr/local/include)
 include_directories(${CMAKE_SOURCE_DIR}/../include /usr/include /usr/local/include)
 include_directories(${Caffe_INCLUDE_DIRS})

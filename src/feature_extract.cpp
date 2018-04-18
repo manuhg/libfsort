@@ -31,7 +31,7 @@ vector<vector<float>> extract_features(int num_img_files)
     int num_mini_batches = num_img_files;
     vector<vector<float>> features_vec;
 
-    const char * binaryproto="ml_data/bvlc_googlenet.caffemodel";
+    const char * binaryproto="ml_data/models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel";
     string feature_extraction_proto("ml_data/imagenet_val.prototxt");
 
     if(num_img_files<1)

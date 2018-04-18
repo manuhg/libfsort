@@ -14,18 +14,24 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     for(vector<string>::iterator i=image_files.begin();i!=image_files.end();i++)
         file_list<<*i<<" 0\n";
     file_list.close();
-    vector<vector<float>>features;
-    for (int j=1;j<=1000;j++)
+    // vector<vector<float>>features;
+    // for (int j=1;j<=5000;j++)
+    // {
+    //     vector<float>a;
+    //     for(int i=1;i<=4096;i++)
+    //         a.push_back((float)(i*j)/3.1415);
+    //     features.push_back(a);
+    // }
+    int hh=0;
+    cout<<"\n"<<image_files.size()<<" files\n";
+    vector<vector<float>>features = extract_features(image_files.size());
+    for( vector<vector<float>>::iterator i=features.begin();i!=features.end();i++)
     {
-        vector<float>a;
-        for(int i=1;i<=4096;i++)
-            a.push_back((float)(i*j)/3.1415);
-        features.push_back(a);
+        cout<<++hh<<" ";
     }
-    //extract_features(image_files.size());
-    if(features.size()<1)
-        return empty;
-    return tsne_obj.run(features,2,1000);
+    // if(features.size()<1)
+    //     return empty;
+    // return tsne_obj.run(features,2,1000,4);
 }
 #define _main
 #ifdef _main
