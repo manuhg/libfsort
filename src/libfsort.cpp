@@ -8,17 +8,17 @@ template<class Dtype> void display_vector_(vector<vector<Dtype>> f)
 
     for( class vector<vector<Dtype>>::iterator i=f.begin();i!=f.end();i++)
     {
-        cout<<endl;
+        //cout<<endl;
         for(class vector<Dtype>::iterator j=i->begin();j!=i->end();j++)
-        		cout<<*j;
+            cout<<"\t"<<*j;
     }
     cout<<endl;
 }
-vector<vector<double>> extract_embeddings(vector<string> image_files,int accuracy_level) //add option to change batch size and and crop sizes
+vector<vector<double>> extract_embeddings(vector<string> image_files,int accuracy_level,bool print_tsnepts) //add option to change batch size and and crop sizes
 {
-    vector<vector<double>> empty;
+    vector<vector<double>> embeddings;
     if(image_files.size()<1)
-        return empty;
+        return embeddings;
 
     ofstream file_list;
     tsne_wrapper tsne_obj;
@@ -31,9 +31,11 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     vector<vector<float>>features = extract_features(image_files.size());
     //display_vector_<float>(features);
     if(features.size()<1)
-        return empty;
-    empty=tsne_obj.run(features,2,1000,4);
-    //display_vector_<double>(empty);
+        return embeddings;
+    embeddings=tsne_obj.run(features,2,1000,4);
+    if(print_tsnepts)
+        display_vector_<double>(embeddings);
+    return embeddings;
 }
 //#define _main
 #ifdef _main
