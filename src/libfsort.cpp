@@ -1,16 +1,15 @@
 #include "libfsort.h"
-void display_vector(vector<vector<float>> f)
+template<class Dtype> void display_vector_(vector<vector<Dtype>> f)
 {
-    //vector<vector<float>>f=extract_features(atoi(argv[1]));
     if(f.size()<1)
-        cout<<"\nEmpty!";
+        cout<<"Empty!";
     else
-        cout<<"\n "<<f.size()<<" files"<<"\n"<<f[0].size()<<" features";
+        cout<<"feature vector:"<<f.size()<<"x"<<f[0].size();
     
-    for( vector<vector<float>>::iterator i=f.begin();i!=f.end();i++)
+    for( class vector<vector<Dtype>>::iterator i=f.begin();i!=f.end();i++)
     {
         cout<<endl;
-        for(vector<float>::iterator j=i->begin();j!=i->end();j++)
+        for(class vector<Dtype>::iterator j=i->begin();j!=i->end();j++)
         		cout<<*j;
     }
     cout<<endl;
@@ -28,12 +27,13 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
         file_list<<*i<<" 0\n";
     file_list.close();
 
-    cout<<"\n"<<image_files.size()<<" files\n";
+    cout<<image_files.size()<<" input image files";
     vector<vector<float>>features = extract_features(image_files.size());
-    //display_vector(features);
+    //display_vector_<float>(features);
     if(features.size()<1)
         return empty;
-    return tsne_obj.run(features,2,1000,4);
+    empty=tsne_obj.run(features,2,1000,4);
+    //display_vector_<double>(empty);
 }
 #define _main
 #ifdef _main
@@ -51,7 +51,6 @@ int main(int argc, char ** argv)
         //cout<<"\n"<<a;
     }
     vector<vector<double>> v=extract_embeddings(files,1);
-    cout<<"\n"<<v.size()<<" files "<<v[0].size()<<" dims";
     cout<<endl;
     return 0;
 }
