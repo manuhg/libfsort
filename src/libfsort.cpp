@@ -1,7 +1,20 @@
 #include "libfsort.h"
-#ifndef _vec_ret
-vector<vector<float>> fvec;
-#endif
+void display_vector(vector<vector<float>> f)
+{
+    //vector<vector<float>>f=extract_features(atoi(argv[1]));
+    if(f.size()<1)
+        cout<<"\nEmpty!";
+    else
+        cout<<"\n "<<f.size()<<" files"<<"\n"<<f[0].size()<<" features";
+    
+    for( vector<vector<float>>::iterator i=f.begin();i!=f.end();i++)
+    {
+        cout<<endl;
+        for(vector<float>::iterator j=i->begin();j!=i->end();j++)
+        		cout<<*j;
+    }
+    cout<<endl;
+}
 vector<vector<double>> extract_embeddings(vector<string> image_files,int accuracy_level) //add option to change batch size and and crop sizes
 {
     vector<vector<double>> empty;
@@ -14,27 +27,15 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     for(vector<string>::iterator i=image_files.begin();i!=image_files.end();i++)
         file_list<<*i<<" 0\n";
     file_list.close();
-    // vector<vector<float>>features;
-    // for (int j=1;j<=5000;j++)
-    // {
-    //     vector<float>a;
-    //     for(int i=1;i<=4096;i++)
-    //         a.push_back((float)(i*j)/3.1415);
-    //     features.push_back(a);
-    // }
-    int hh=0;
+
     cout<<"\n"<<image_files.size()<<" files\n";
     vector<vector<float>>features = extract_features(image_files.size());
-    for( vector<vector<float>>::iterator i=features.begin();i!=features.end();i++)
-    {
-        cout<<++hh<<" ";
-    }
-    return empty;
-    // if(features.size()<1)
-    //     return empty;
-    // return tsne_obj.run(features,2,1000,4);
+    //display_vector(features);
+    if(features.size()<1)
+        return empty;
+    return tsne_obj.run(features,2,1000,4);
 }
-//#define _main
+#define _main
 #ifdef _main
 #include<iostream>
 #include<string.h>
@@ -54,5 +55,6 @@ int main(int argc, char ** argv)
     cout<<endl;
     return 0;
 }
+
 
 #endif

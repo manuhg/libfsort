@@ -4,7 +4,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string>
-//#include "libfsort.h"
+#include "libfsort.h"
 #include "boost/algorithm/string.hpp"
 #include "google/protobuf/text_format.h"
 #include "caffe/caffe.hpp"
@@ -66,6 +66,7 @@ vector<vector<float>> extract_features(int num_img_files)
     Caffe::set_mode(Caffe::CPU);
     std::string pretrained_binary_proto(binaryproto);
     ::google::InitGoogleLogging(binaryproto);
+    LOG(ERROR)<<"Extracting features";
 
     boost::shared_ptr<Net<float> > feature_extraction_net(new Net<float>(feature_extraction_proto, caffe::TEST));
     feature_extraction_net->CopyTrainedLayersFrom(pretrained_binary_proto);
@@ -94,23 +95,24 @@ vector<vector<float>> extract_features(int num_img_files)
         }
         features_vec.push_back(batch_fvec);
     }
+    LOG(ERROR)<<"Done extracting features :"<<features_vec.size()<<"x"<<features_vec[0].size()<<endl;
     return features_vec;
 }
-int main(int argc,char **argv)
-{
-    cout<<"hello!"<<endl;
-    vector<vector<float>>f=extract_features(atoi(argv[1]));
-    if(f.size()<1)
-        cout<<"\nEmpty!";
-    else
-        cout<<"\n "<<f.size()<<" files"<<"\n"<<f[0].size()<<" features";
-    int hh=0;
-    for( vector<vector<float>>::iterator i=f.begin();i!=f.end();i++)
-    {
-        cout<<endl;
-        for(vector<float>::iterator j=i->begin();j!=i->end();j++)
-        	// if(*j)
-        		cout<<*j;
-    }
-    cout<<endl;
-}
+// int main(int argc,char **argv)
+// {
+//     cout<<"hello!"<<endl;
+//     vector<vector<float>>f=extract_features(atoi(argv[1]));
+//     if(f.size()<1)
+//         cout<<"\nEmpty!";
+//     else
+//         cout<<"\n "<<f.size()<<" files"<<"\n"<<f[0].size()<<" features";
+//     int hh=0;
+//     for( vector<vector<float>>::iterator i=f.begin();i!=f.end();i++)
+//     {
+//         cout<<endl;
+//         for(vector<float>::iterator j=i->begin();j!=i->end();j++)
+//         	// if(*j)
+//         		cout<<*j;
+//     }
+//     cout<<endl;
+// }

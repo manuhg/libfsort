@@ -14,10 +14,10 @@ vector<vector<double>> tsne_wrapper::run(vector<vector<float>> data,int op_dims,
 
   samples = data.size();
   input_dims = data[0].size();
-  cout<<"\nReceived Feature vector of size "<<samples<<"x"<<input_dims<<"\n";
+  cout<<"\n\ntsne wrapper:Received Feature vector of size "<<samples<<"x"<<input_dims<<"\n";
   if(samples-1<3*perplexity)
   {
-      cout<<"\nWarning: too few samples for expected accuracy";
+      cout<<"Warning: too few samples for expected accuracy";
       perplexity=(samples-1)/3;
   }
 
