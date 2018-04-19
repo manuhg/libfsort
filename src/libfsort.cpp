@@ -37,7 +37,7 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
         display_vector_<double>(embeddings);
     return embeddings;
 }
-//#define _main
+#define _main
 #ifdef _main
 #include<iostream>
 #include<string.h>
