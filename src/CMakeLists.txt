@@ -26,7 +26,7 @@ file(GLOB INCLUDES ./*.h)
 set(LIBS bhtsne mpi)
 #set(LIBS bhtsne pthread m  boost_system boost_thread glog lmdb cblas hdf5_hl leveldb gflags protobuf hdf5 caffe boost_filesystem caffeproto )
 set(BUILD_LIB ON)
-set(BUILD_EXECUTABLE ON)
+set(BUILD_EXECUTABLE OFF)
 set(OPTIMIZATION_FLAGS OFF)
 set(ALL_STATIC OFF)
 
