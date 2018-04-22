@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(libfsort)
 
 
-set(Caffe_DIR ../caffe/share/Caffe)
+#set(Caffe_DIR ../caffe/share/Caffe)
 #set(Caffe_DIR ${CMAKE_SOURCE_DIR}/../caffe/cmake_build)
 find_package(Caffe REQUIRED)
 #find_package(OpenCV REQUIRED)

@@ -6,7 +6,7 @@ cd caffe
 # mkdir cmake_build
 # cd cmake_build
 # cmake .. -DCPU_ONLY=ON -DBUILD_SHARED_LIBS=OFF
-
+cmake .. -DCPU_ONLY=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release  
 # cmake . -DCMAKE_BUILD_TYPE=Debug     # switch to debug
 # make -j 12 && make install           # installs by default to build_dir/install
 # cmake . -DCMAKE_BUILD_TYPE=Release   # switch to release
