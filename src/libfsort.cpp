@@ -14,7 +14,7 @@ template<class Dtype> void display_vector_(vector<vector<Dtype>> f)
     }
     cout<<endl;
 }
-vector<vector<double>> extract_embeddings(vector<string> image_files,int accuracy_level,bool print_tsnepts) //add option to change batch size and and crop sizes
+vector<vector<double>> extract_embeddings(vector<string> image_files,int perplexity,int threads,bool print_tsnepts,float amplify,bool normalize) //add option to change batch size and and crop sizes
 {
     vector<vector<double>> embeddings;
     if(image_files.size()<1)
@@ -32,7 +32,7 @@ vector<vector<double>> extract_embeddings(vector<string> image_files,int accurac
     //display_vector_<float>(features);
     if(features.size()<1)
         return embeddings;
-    embeddings=tsne_obj.run(features,2,1000,4);
+    embeddings=tsne_obj.run(features,2,1000,3,perplexity,0.5,amplify,normalize);
     if(print_tsnepts)
         display_vector_<double>(embeddings);
     return embeddings;

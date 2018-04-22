@@ -39,34 +39,35 @@ vector<vector<float>> extract_features(int num_img_files)
 
     const char * binaryproto="ml_data/models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel";
     string feature_extraction_proto("ml_data/imagenet_val.prototxt");
+    std::string pretrained_binary_proto(binaryproto);
+    ::google::InitGoogleLogging(binaryproto);
 
     if(num_img_files<1)
     {
-        cout<<"\nToo few files!";
+        LOG(ERROR)<<"oo few files!"<<endl;
         return features_vec;
     }
     if(!exists("file_list.txt"))
     {
-        cout<<"\nfile_list.txt not found!";
+        LOG(ERROR)<<"\nfile_list.txt not found!"<<endl;
         return features_vec;
     }
     if(!exists(binaryproto))
     {
-        cout<<endl <<"\n File "<<binaryproto<<" not found!";
+        LOG(ERROR)<<"File "<<binaryproto<<" not found!"<<endl;
         return features_vec;
     }
-    cout <<endl<<"Found "<<binaryproto;
+    LOG(ERROR)<<"Found "<<binaryproto<<endl;
     if(!exists(feature_extraction_proto.c_str()))
     {
-        cout <<"\n File "<<feature_extraction_proto<<" not found!";
+        LOG(ERROR) <<"File "<<feature_extraction_proto<<" not found!"<<endl;
         return features_vec;
     }
-    cout<<endl<<"Found "<<feature_extraction_proto;
+    LOG(ERROR)<<"Found "<<feature_extraction_proto<<endl;
 
     Caffe::set_mode(Caffe::CPU);
-    std::string pretrained_binary_proto(binaryproto);
-    ::google::InitGoogleLogging(binaryproto);
-    LOG(ERROR)<<"Extracting features";
+
+    LOG(ERROR)<<"Extracting features"<<endl;
 
     boost::shared_ptr<Net<float> > feature_extraction_net(new Net<float>(feature_extraction_proto, caffe::TEST));
     feature_extraction_net->CopyTrainedLayersFrom(pretrained_binary_proto);
@@ -74,7 +75,7 @@ vector<vector<float>> extract_features(int num_img_files)
 
     if(!feature_extraction_net->has_blob(feature_blob_name))
     {
-        cout<< "Unknown feature name "<< feature_blob_name;
+        LOG(ERROR)<< "Unknown feature name "<< feature_blob_name<<endl;
         return features_vec;
     }
 
@@ -95,7 +96,7 @@ vector<vector<float>> extract_features(int num_img_files)
         }
         features_vec.push_back(batch_fvec);
     }
-    LOG(ERROR)<<"Done extracting features :"<<features_vec.size()<<"x"<<features_vec[0].size()<<endl;
+    LOG(ERROR)<<"Done extracting features :"<<features_vec.size()<<"x"<<features_vec[0].size()<<endl<<endl;
     return features_vec;
 }
 // int main(int argc,char **argv)
@@ -103,9 +104,9 @@ vector<vector<float>> extract_features(int num_img_files)
 //     cout<<"hello!"<<endl;
 //     vector<vector<float>>f=extract_features(atoi(argv[1]));
 //     if(f.size()<1)
-//         cout<<"\nEmpty!";
+//         cout<<"mpty!";
 //     else
-//         cout<<"\n "<<f.size()<<" files"<<"\n"<<f[0].size()<<" features";
+//         cout<<""<<f.size()<<" files"<<"<<f[0].size()<<" features";
 //     int hh=0;
 //     for( vector<vector<float>>::iterator i=f.begin();i!=f.end();i++)
 //     {
