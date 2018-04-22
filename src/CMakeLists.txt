@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(libfsort)
 
 
-set(Caffe_DIR ../caffe/share/Caffe)
+#set(Caffe_DIR ../caffe/share/Caffe)
 #set(Caffe_DIR ${CMAKE_SOURCE_DIR}/../caffe/cmake_build)
 find_package(Caffe REQUIRED)
 #find_package(OpenCV REQUIRED)
@@ -26,7 +26,7 @@ file(GLOB INCLUDES ./*.h)
 set(LIBS bhtsne mpi)
 #set(LIBS bhtsne pthread m  boost_system boost_thread glog lmdb cblas hdf5_hl leveldb gflags protobuf hdf5 caffe boost_filesystem caffeproto )
 set(BUILD_LIB ON)
-set(BUILD_EXECUTABLE OFF)
+set(BUILD_EXECUTABLE ON)
 set(OPTIMIZATION_FLAGS OFF)
 set(ALL_STATIC OFF)
 

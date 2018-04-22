@@ -54,7 +54,7 @@ add_library(caffe SHARED IMPORTED)
 
 set_target_properties(caffe PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "USE_LMDB;USE_LEVELDB;CPU_ONLY;USE_OPENCV"
-  INTERFACE_INCLUDE_DIRECTORIES "/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include/opencv;/usr/include;/usr/include;/usr/include;${_IMPORT_PREFIX}/include"
+  INTERFACE_INCLUDE_DIRECTORIES "/usr/include;/usr/include;/usr/include;/usr/include;/usr/include/hdf5/serial;/usr/include;/usr/include;/usr/include/opencv;/usr/include;/usr/include/x86_64-linux-gnu;/usr/include/x86_64-linux-gnu;/usr/include;${_IMPORT_PREFIX}/include"
 )
 
 # Create imported target caffeproto
