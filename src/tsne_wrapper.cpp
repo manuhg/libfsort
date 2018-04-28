@@ -33,7 +33,7 @@ vector<vector<double>> tsne_wrapper::run(vector<vector<float>> data,
     for (j = 0; j < input_dims; j++)
       inp_data[k++] = data[i][j];
   tsne_run_double(inp_data, samples, input_dims, op_data, op_dims, perplexity,
-                  theta, 4, max_iters);
+                  theta,num_threads, max_iters);
 
   if (normalize) {
 
